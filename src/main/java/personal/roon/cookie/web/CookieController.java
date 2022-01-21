@@ -2,10 +2,12 @@ package personal.roon.cookie.web;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,25 +24,12 @@ public class CookieController {
     }
 
     @PostMapping
-    public ModelAndView getCookie(HttpServletRequest servletRequest) {
+    public ModelAndView getCookie(@CookieValue Cookie cookie) throws NullPointerException{
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("cookie");
 
-        Cookie[] cookies = servletRequest.getCookies();
-        if(cookies == null){
-            return modelAndView;
-        }
+        log.info(cookie.getName()+" "+cookie.getValue()+" "+cookie.getMaxAge());
 
-        List<String> cookieNames = new ArrayList<>();
-
-        for (Cookie cookie : cookies) {
-            log.info(cookie.getName() + " " + cookie.getValue() + " " + cookie.getMaxAge());
-            cookieNames.add(cookie.getName());
-        }
-
-        modelAndView.addObject("cookies", cookies);
-        modelAndView.addObject("cookieNames",cookieNames);
-        modelAndView.addObject("test","test");
         return modelAndView;
     }
 }
