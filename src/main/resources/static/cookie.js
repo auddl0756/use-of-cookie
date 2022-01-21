@@ -9,9 +9,18 @@ function initCookiePage() {
         }).then(response => {
             return response.ok;
         }).catch(error => (() => console.log(error)));
+    };
+
+    cookieObj.invalidateCookieRequest = function () {
+        return fetch("/cookie", {
+            method: 'delete'
+        }).then(response => {
+            return response.ok;
+        }).catch(error => (() => console.log(error)));
     }
 
     cookieObj.sendCookieBtn = document.querySelector('#sendCookieBtn');
+    cookieObj.invalidateCookieBtn = document.querySelector('#invalidateCookieBtn');
 
     cookieObj.sendCookieHandler = (
         () => {
@@ -19,5 +28,9 @@ function initCookiePage() {
         }
     )
 
+    cookieObj.invalidateCookieHandler = (() => cookieObj.invalidateCookieBtn.addEventListener('click', cookieObj.invalidateCookieRequest));
+
     cookieObj.sendCookieHandler();
+    cookieObj.invalidateCookieHandler();
+
 }
