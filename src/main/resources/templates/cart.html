@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니 페이지(상품 리스트를 쿠키에 담아보기)</title>
+</head>
+<body>
+
+<ul id="product_wrapper">
+    <li class='product' data-uuid="uuid1">상품1</li>
+    <li class='product' data-uuid="uuid2">상품2</li>
+    <li class='product' data-uuid="uuid3">상품3</li>
+    <li class='product' data-uuid="uuid4">상품4</li>
+    <li class='product' data-uuid="uuid5">상품5</li>
+</ul>
+
+<script>
+    document.querySelector('#product_wrapper').addEventListener('click',(event)=>{
+        const uuid = event.target.dataset.uuid;
+       fetch('/cart',{
+           method:'post',
+           body : uuid,
+       });
+    });
+</script>
+
+</body>
+</html>
