@@ -11,20 +11,7 @@
 <h1 th:text="${'Hello World'}"></h1>
 
 <div id="ssred-cookies">
-    <div th:each="cookie : ${cookies}">
-        <span>
-            [[${cookie}]]
-        </span>
-    </div>
-
-    <div th:each="cookieName : ${cookieNames}">
-        <span>
-            [[${cookieName}]]
-        </span>
-    </div>
-
-    <div th:text="${test}">
-    </div>
+    [[${cookie}]]
 </div>
 
 <script src="/cookie.js"></script>
