@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니 페이지(상품 리스트를 쿠키에 담아보기)</title>
+</head>
+<body>
+
+<ul id="product_wrapper">
+    <li>
+        상품1
+        <input type="checkbox" class='product' data-uuid="uuid1">
+    </li>
+    <li>
+        상품2
+        <input type="checkbox" class='product' data-uuid="uuid2">
+    </li>
+    <li>
+        상품3
+        <input type="checkbox" class='product' data-uuid="uuid3">
+    </li>
+    <li>
+        상품4
+        <input type="checkbox" class='product' data-uuid="uuid4">
+    </li>
+    <li>
+        상품5
+        <input type="checkbox" class='product' data-uuid="uuid5">
+    </li>
+</ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    function initCart() {
+        // document.querySelectorAll('.product').addEventListeneristener('click', (event) => {
+        $(document).on('click','.product',(event)=>{
+            let cartDto = {
+                uuid: event.target.dataset.uuid,
+                added: event.target.checked
+            };
+
+            fetch('/cart', {
+                headers :{
+                    'Content-Type' : 'application/json'
+                },
+                method: 'post',
+                body: JSON.stringify(cartDto)
+            });
+        });
+    }
+
+    $(initCart);
+
+</script>
+
+
+</body>
+</html>

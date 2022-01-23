@@ -21,6 +21,9 @@ public class CookieController {
     private static final String COOKIE_NAME = "visited_count";
     private static final String COOKIE_VISIBLE_PATH = "/cookie";
 
+    @Autowired
+    private CookieUtil cookieUtil;
+
     @GetMapping
     public String cookiePage() {
         return "cookie";
@@ -32,7 +35,7 @@ public class CookieController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("cookie");
 
-        Cookie cookie = makeCookie(cookieValue, COOKIE_AGE);
+        Cookie cookie = cookieUtil.makeCookie(COOKIE_NAME, String.valueOf(cookieValue + 1), COOKIE_VISIBLE_PATH, COOKIE_AGE);
 
         servletResponse.addCookie(cookie);
         log.info(cookie.getName() + " " + cookie.getValue() + " " + cookie.getMaxAge());
@@ -43,19 +46,11 @@ public class CookieController {
 
     @DeleteMapping
     public String initCookie(HttpServletResponse servletResponse) {
-        Cookie cookie = makeCookie(0,  0);
+        Cookie cookie = cookieUtil.makeCookie(COOKIE_NAME, "", COOKIE_VISIBLE_PATH, 0);
         servletResponse.addCookie(cookie);
 
         log.info(cookie.getName() + " " + cookie.getValue() + " " + cookie.getMaxAge());
 
         return "cookie";
-    }
-
-    private Cookie makeCookie(int value,int age) {
-        Cookie cookie = new Cookie(COOKIE_NAME, String.valueOf(value + 1));
-        cookie.setPath(COOKIE_VISIBLE_PATH);
-        cookie.setMaxAge(age);
-
-        return cookie;
     }
 }
