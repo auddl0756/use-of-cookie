@@ -13,8 +13,8 @@
 - 쿠키에 여러 가지 넣어보고 프론트<->서버 사이에서 주고받아보기
 
 ## 참고 자료
-[RFC 6265, HTTP State Management Mechanism](https://datatracker.ietf.org/doc/html/rfc6265)
-[Stack Overflow's Cookie Policy](https://stackoverflow.com/legal/cookie-policy)
+- [RFC 6265, HTTP State Management Mechanism](https://datatracker.ietf.org/doc/html/rfc6265)
+- [Stack Overflow's Cookie Policy](https://stackoverflow.com/legal/cookie-policy)
 
 ## 추가 의문점
 - 인텔리제이가 쿠키 만드는 것 같은데 왜 만들지? <br/>
