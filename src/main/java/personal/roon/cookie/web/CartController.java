@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,12 +37,15 @@ public class CartController {
     @ResponseBody
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addProduct(@RequestBody CartDto cartDto,
+                           HttpServletRequest servletRequest,
                            @CookieValue(name = COOKIE_NAME, defaultValue = "", required = false) String cartList,
                            @CookieValue(name = REQUEST_COUNT_COOKIE, defaultValue = "0", required = false) String requestCount,
                            HttpServletResponse servletResponse) {
         String uuid = cartDto.getUuid();
         boolean isAdded = cartDto.isAdded();
         log.info(cartDto);
+        log.info("session id = " + servletRequest.getRequestedSessionId());
+
 
         if (isAdded) {
             cartSet.add(uuid);
@@ -58,5 +62,8 @@ public class CartController {
 
         servletResponse.addCookie(cookie);
         servletResponse.addCookie(requestCountCookie);
+
+        servletResponse.setHeader("Set-Cookie", "test-cookie=test-value");
+
     }
 }
