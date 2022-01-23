@@ -63,7 +63,7 @@ public class CartController {
         servletResponse.addCookie(cookie);
         servletResponse.addCookie(requestCountCookie);
 
-        servletResponse.setHeader("Set-Cookie", "test-cookie=test-value");
+        servletResponse.setHeader("Set-Cookie", "test-cookie=test-value; HttpOnly; SameSite=strict");
 
     }
 }
