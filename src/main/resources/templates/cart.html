@@ -34,15 +34,15 @@
 <script>
     function initCart() {
         // document.querySelectorAll('.product').addEventListeneristener('click', (event) => {
-        $(document).on('click','.product',(event)=>{
+        $(document).on('click', '.product', (event) => {
             let cartDto = {
                 uuid: event.target.dataset.uuid,
                 added: event.target.checked
             };
 
             fetch('/cart', {
-                headers :{
-                    'Content-Type' : 'application/json'
+                headers: {
+                    'Content-Type': 'application/json'
                 },
                 method: 'post',
                 body: JSON.stringify(cartDto)
@@ -51,6 +51,8 @@
     }
 
     $(initCart);
+
+    document.cookie = 'cookie_name_you_want_to_add = value; max-age=' + (60 * 60);
 
 </script>
 
