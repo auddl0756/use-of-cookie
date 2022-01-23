@@ -1,6 +1,5 @@
 package personal.roon.cookie.web;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,6 +19,8 @@ public class CartController {
     private static final String COOKIE_NAME = "cart_list";
     private static final String COOKIE_VISIBLE_PATH = "/cart";
 
+    private static final String REQUEST_COUNT_COOKIE = "visit_count";
+
     @Autowired
     private CookieUtil cookieUtil;
 
@@ -34,22 +35,28 @@ public class CartController {
 
     @ResponseBody
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void addProduct(@RequestBody CartDto cartDto, @CookieValue(name = COOKIE_NAME, defaultValue = "", required = false) String cartList, HttpServletResponse servletResponse) {
+    public void addProduct(@RequestBody CartDto cartDto,
+                           @CookieValue(name = COOKIE_NAME, defaultValue = "", required = false) String cartList,
+                           @CookieValue(name = REQUEST_COUNT_COOKIE, defaultValue = "0", required = false) String requestCount,
+                           HttpServletResponse servletResponse) {
         String uuid = cartDto.getUuid();
         boolean isAdded = cartDto.isAdded();
         log.info(cartDto);
 
-        if(isAdded){
+        if (isAdded) {
             cartSet.add(uuid);
-        }else{
+        } else {
             cartSet.remove(uuid);
         }
 
         String strCartList = cartSet.stream().collect(Collectors.joining("_"));
 
-        log.info(strCartList+" "+cartSet.size());
+        log.info(strCartList + " " + cartSet.size());
 
         Cookie cookie = cookieUtil.makeCookie(COOKIE_NAME, strCartList, COOKIE_VISIBLE_PATH, COOKIE_AGE);
+        Cookie requestCountCookie = cookieUtil.makeCookie(REQUEST_COUNT_COOKIE, String.valueOf(Integer.parseInt(requestCount) + 1), COOKIE_VISIBLE_PATH, COOKIE_AGE);
+
         servletResponse.addCookie(cookie);
+        servletResponse.addCookie(requestCountCookie);
     }
 }
